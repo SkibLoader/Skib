@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKIB</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100%;
+            background: radial-gradient(circle, #4B0082, #1a1a1a);
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .video-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        .text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            color: #8B008B;
+            text-shadow: 0 0 10px #FF69B4, 0 0 20px #FF69B4, 0 0 30px #FF69B4, 0 0 40px #FF69B4; /* Glow effect */
+            z-index: 2;
+        }
+        .console-text {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2em;
+            color: #8B008B;
+            text-shadow: 0 0 10px #FF69B4, 0 0 20px #FF69B4, 0 0 30px #FF69B4, 0 0 40px #FF69B4; /* Glow effect */
+            z-index: 2;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .link-text {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2em;
+            color: #8B008B;
+            text-shadow: 0 0 10px #FF69B4, 0 0 20px #FF69B4, 0 0 30px #FF69B4, 0 0 40px #FF69B4; /* Glow effect */
+            z-index: 2;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <iframe id="youtube-video" src="https://www.youtube.com/embed/cBESpH8GVtw?autoplay=1&loop=1&enablejsapi=1&controls=0&disablekb=1&fs=0&iv_load_policy=3&modestbranding=1&rel=0&showinfo=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="overlay"></div>
+    </div>
+    <div class="text">Skib Loader</div>
+    <div class="console-text" id="console-text"></div>
+    <div class="link-text" onclick="window.location.href='https://discord.gg/BySDNRVu';">Discord</div>
+
+    <script>
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        function onYouTubeIframeAPIReady() {
+            var player = new YT.Player('youtube-video', {
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            event.target.playVideo();
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED) {
+                event.target.playVideo();
+            }
+        }
+
+        document.addEventListener('mousemove', function(event) {
+            if (event.clientY > window.innerHeight - 10) {
+                var iframe = document.getElementById('youtube-video');
+                iframe.style.pointerEvents = 'none';
+            } else {
+                var iframe = document.getElementById('youtube-video');
+                iframe.style.pointerEvents = 'auto';
+            }
+        });
+
+    </script>
+</body>
+</html>
